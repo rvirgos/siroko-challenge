@@ -1,10 +1,11 @@
 <?php
 
-namespace App\ValueObjects;
+namespace App\Models\ValueObjects;
 
 class Money
 {
     private float $amount;
+
     private string $currency;
 
     public function __construct(float $amount, string $currency)

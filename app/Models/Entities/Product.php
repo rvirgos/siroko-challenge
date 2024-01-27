@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Entities;
+namespace App\Models\Entities;
 
-use Money;
+use App\Models\ValueObjects\Money;
 
 class Product
 {
     private int $id;
+
     private string $name;
+
     private Money $price;
 
     public function __construct(int $id, string $name, Money $price)

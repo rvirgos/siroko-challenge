@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ValueObjects;
+namespace App\Models\ValueObjects;
 
 use InvalidArgumentException;
 
@@ -11,7 +11,7 @@ class Quantity
     public function __construct($value)
     {
         if ($value < 1) {
-            throw new InvalidArgumentException("Quantity cannot be less than one.");
+            throw new InvalidArgumentException('Quantity cannot be less than one.');
         }
 
         $this->value = $value;

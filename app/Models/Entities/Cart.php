@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Entities;
+namespace App\Models\Entities;
 
-use App\ValueObjects\Money;
+use App\Models\ValueObjects\Money;
 
-class ShoppingCart
+class Cart
 {
+    const CURRENCY = 'EUR';
+
     private int $id;
+
     private array $items;
 
     public function create(int $id): self
@@ -25,16 +28,21 @@ class ShoppingCart
         $this->items[] = $item;
     }
 
+    public function removeItem(CartItem $itemToRemove): void
+    {
+        $this->items = array_intersect($this->items, [$itemToRemove]);
+    }
+
     public function getTotal(): Money
     {
         $total = 0;
 
         foreach ($this->items as $item) {
             /* @var $item CartItem */
-            $total += $item->subtotal()->amount();
+            $total += $item->getSubtotal()->amount();
         }
 
-        return new Money($total, 'EUR');
+        return new Money($total, env('DEFAULT_CURRENCY'));
     }
 
     public function items(): array

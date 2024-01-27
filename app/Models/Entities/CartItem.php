@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Entities;
+namespace App\Models\Entities;
 
-use App\ValueObjects\Money;
-use App\ValueObjects\Quantity;
+use App\Models\ValueObjects\Money;
+use App\Models\ValueObjects\Quantity;
 
 class CartItem
 {
     private Product $product;
+
     private Quantity $quantity;
 
     public function __construct(Product $product, Quantity $quantity)
@@ -26,8 +27,8 @@ class CartItem
         return $this->quantity;
     }
 
-    public function subTotal(): Money
+    public function getSubtotal(): Money
     {
-        return new Money($this->product->price()->amount() * $this->quantity->value(), 'EUR');
+        return new Money($this->product->price()->amount() * $this->quantity->value(), env('DEFAULT_CURRENCY'));
     }
 }
