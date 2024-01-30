@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\ValueObjects;
+namespace App\Models\Cart\Domain;
 
 use InvalidArgumentException;
 

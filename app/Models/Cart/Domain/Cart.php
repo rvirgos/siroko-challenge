@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Entities;
+namespace App\Models\Cart\Domain;
 
-use App\Models\ValueObjects\Money;
+use App\Models\Products\Domain\Price;
+use function App\Models\Entities\array_intersect;
 
 class Cart
 {
@@ -33,16 +34,16 @@ class Cart
         $this->items = array_intersect($this->items, [$itemToRemove]);
     }
 
-    public function getTotal(): Money
+    public function getTotal(): Price
     {
         $total = 0;
 
         foreach ($this->items as $item) {
             /* @var $item CartItem */
-            $total += $item->getSubtotal()->amount();
+            $total += $item->getSubtotal()->value();
         }
 
-        return new Money($total, env('DEFAULT_CURRENCY'));
+        return new Price($total, env('DEFAULT_CURRENCY'));
     }
 
     public function items(): array

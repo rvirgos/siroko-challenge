@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models\Entities;
+namespace App\Models\Cart\Domain;
 
-use App\Models\ValueObjects\Money;
-use App\Models\ValueObjects\Quantity;
+use App\Models\Products\Domain\Price;
+use App\Models\Products\Domain\Product;
 
 class CartItem
 {
@@ -27,8 +27,8 @@ class CartItem
         return $this->quantity;
     }
 
-    public function getSubtotal(): Money
+    public function getSubtotal(): Price
     {
-        return new Money($this->product->price()->amount() * $this->quantity->value(), env('DEFAULT_CURRENCY'));
+        return new Price( $this->product->price()->value() * $this->quantity->value(), env('DEFAULT_CURRENCY'));
     }
 }

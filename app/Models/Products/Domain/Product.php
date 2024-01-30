@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Models\Entities;
-
-use App\Models\ValueObjects\Money;
+namespace App\Models\Products\Domain;
 
 class Product
 {
@@ -10,9 +8,9 @@ class Product
 
     private string $name;
 
-    private Money $price;
+    private Price $price;
 
-    public function __construct(int $id, string $name, Money $price)
+    public function __construct(int $id, string $name, Price $price)
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,7 +27,7 @@ class Product
         return $this->name;
     }
 
-    public function price(): Money
+    public function price(): Price
     {
         return $this->price;
     }
