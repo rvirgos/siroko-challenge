@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cart_item', function (Blueprint $table) {
             $table->id();
-            $table->integer('cart_id');
-            $table->integer('product_id');
+            $table->unsignedBigInteger('cart_id');
+            $table->unsignedBigInteger('product_id');
             $table->integer('quantity', false, true);
             $table->timestamps();
 
@@ -29,6 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cart_item', function (Blueprint $table) {
+            $table->dropForeign('cart_item_cart_id_foreign');
             $table->dropForeign('cart_item_product_id_foreign');
         });
         Schema::dropIfExists('cart_item');
