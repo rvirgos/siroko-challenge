@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Products\Domain\ProductRepository;
 use Illuminate\View\View;
 
-class ListProductsController extends Controller
+class InfoProductController extends Controller
 {
     private ProductRepository $repository;
 
@@ -14,10 +14,10 @@ class ListProductsController extends Controller
         $this->repository = $repository;
     }
 
-    public function __invoke(): View
+    public function __invoke(int $id): View
     {
-        $products = $this->repository->all();
+        $product = $this->repository->search($id);
 
-        return view('home', ['products' => $products]);
+        return view('product', ['info' => $product]);
     }
 }

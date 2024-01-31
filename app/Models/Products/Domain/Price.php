@@ -2,7 +2,7 @@
 
 namespace App\Models\Products\Domain;
 
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 class Price
 {
@@ -10,10 +10,12 @@ class Price
 
     private string $currency;
 
-    private function ensurePriceIsValid(float $value) {
+    private function ensurePriceIsValid(float $value): void
+    {
         if ($value <= 0) {
             throw new InvalidArgumentException($value . 'is not a valid price');
         }
+
     }
 
     public function __construct(float $value, string $currency)

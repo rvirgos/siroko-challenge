@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+body {
+    padding: 2em;
+}
+
+h1 {
+    margin-bottom: 1em
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, tr {
+    border: 1px solid #ccc;
+    padding: .5em 1em;
+}
+
+img {
+    width: 400px;
+}
+
+td img {
+    width: 200px;
+}

@@ -7,8 +7,6 @@ use function App\Models\Entities\array_intersect;
 
 class Cart
 {
-    const CURRENCY = 'EUR';
-
     private int $id;
 
     private array $items;
