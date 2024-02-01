@@ -37,6 +37,7 @@ class CartAddItemController extends Controller
                 'Content-type' => 'application/json',
             ],
             json_encode([
+                'cart_id' => session('cart')->id(),
                 'product_id' => $productId,
                 'quantity' => $quantity,
             ]),

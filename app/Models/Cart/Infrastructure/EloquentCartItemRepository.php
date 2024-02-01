@@ -5,16 +5,14 @@ namespace App\Models\Cart\Infrastructure;
 use App\Models\Cart\Domain\CartItem;
 use App\Models\Cart\Domain\CartItemRepository;
 
-use App\Models\Products\Infrastructure\ProductEloquentModel;
-
 class EloquentCartItemRepository implements CartItemRepository
 {
-    public function save(CartItem $item): void
+    public function save(Cart $cart, CartItem $item): void
     {
-        $model = new ProductCartItemModel();
-        $model->id = $item->id();
+        $model = new CartItemEloquentModel();
+        $model->cart_id = $cart->id();
         $model->product_id = $item->product()->id();
-        $model->quantity = $item->quantity();
+        $model->quantity = $item->quantity()->value();
 
         $model->save();
     }

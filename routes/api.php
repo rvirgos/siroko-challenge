@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group([
-    Route::post('/add', [ApiCartAddItemController::class, '__invoke'])->name('apiCartAddItem'),
-    Route::put('/update', [ApiCartUpdateItemController::class, '__invoke'])->name('apiCartUpdateItem'),
-    Route::delete('/remove', [ApiCartRemoveItemController::class, '__invoke'])->name('apiCartRemoveItem'),
-]);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/add', [ApiCartAddItemController::class, '__invoke'])->name('apiCartAddItem');
+    Route::put('/update', [ApiCartUpdateItemController::class, '__invoke'])->name('apiCartUpdateItem');
+    Route::delete('/remove', [ApiCartRemoveItemController::class, '__invoke'])->name('apiCartRemoveItem');
+});

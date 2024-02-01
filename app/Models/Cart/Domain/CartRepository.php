@@ -2,23 +2,11 @@
 
 namespace App\Models\Cart\Domain;
 
-class CartRepository
+interface CartRepository
 {
-    public function save(Cart $cart)
-    {
-        // Logic to save the shopping cart to the database or other storage
-        // ...
-    }
+    public function save(Cart $cart): void;
 
-    public function getById(int $id)
-    {
-        // Logic to retrieve a shopping cart by its identifier from the database
-        // ...
-    }
+    public function search(int $id): ?Cart;
 
-    public function getItems(int $id)
-    {
-        // Logic to retrieve a shopping cart items
-        // ...
-    }
+    public function getItems(Cart $cart): array;
 }
