@@ -4,8 +4,6 @@ namespace App\Models\Cart\Domain;
 
 use App\Models\Products\Domain\Price;
 
-use function App\Models\Entities\array_intersect;
-
 class Cart
 {
     private int $id;
@@ -22,6 +20,7 @@ class Cart
         $key = $item->product()->id();
         if (array_key_exists($key, $this->items)) {
             $this->items[$key]->addQuantity($item->quantity());
+
             return;
         }
         $this->items[$key] = $item;

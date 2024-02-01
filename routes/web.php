@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ListProductsController::class, '__invoke'])->name('listProducts');
 Route::get('/{id}/product', [InfoProductController::class, '__invoke'])->name('infoProduct');
-Route::prefix('cart')->group(function () {
-    Route::get('/', [CartSummaryController::class, '__invoke'])->name('cartSummary');
-    Route::post('/add', [CartAddItemController::class, '__invoke'])->name('cartAddItem');
-});
+Route::prefix('cart')->group([
+    Route::get('/', [CartSummaryController::class, '__invoke'])->name('cartSummary'),
+    Route::post('/add', [CartAddItemController::class, '__invoke'])->name('cartAddItem'),
+]);

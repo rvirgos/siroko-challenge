@@ -13,5 +13,5 @@ final class ProductEloquentModel extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'description', 'price'];
+    protected $fillable = ['name', 'description', 'price', 'image'];
 }

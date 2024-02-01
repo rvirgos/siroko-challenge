@@ -7,7 +7,7 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ asset ('css/app.css') }}">
-        <title>{Carrito - Tienda Siroko online</title>
+        <title>Carrito - Tienda Siroko online</title>
     </head>
     <body>
         <h1>Carrito - Siroko</h1>
@@ -26,7 +26,10 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
                 <tr>
                     <td><img src="{{ asset('images/' . $item->product()->image()) }}" alt=""></td>
                     <td>{{ $item->product()->name() }}</td>
-                    <td>{{ $item->quantity()->value() }}</td>
+                    <td>
+                        <input name="quantity" type="number" step="1" value="{{ $item->quantity()->value() }}">
+                        <button>Actualizar</button>
+                    </td>
                     <td>{{ $formatter->formatCurrency($item->product()->price()->value(), env('DEFAULT_CURRENCY')) }}</td>
                     <td>{{ $formatter->formatCurrency($item->subTotal()->value(), env('DEFAULT_CURRENCY')) }}</td>
                     <td><a href="">Eliminar</a></td>

@@ -5,7 +5,6 @@ namespace App\Models\Products\Infrastructure;
 use App\Models\Products\Domain\Price;
 use App\Models\Products\Domain\Product;
 use App\Models\Products\Domain\ProductRepository;
-use Illuminate\Support\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EloquentProductRepository implements ProductRepository
@@ -37,20 +36,20 @@ class EloquentProductRepository implements ProductRepository
         );
     }
 
-    public function all(): Collection
+    public function all(): array
     {
-        $collection = new Collection();
+        $collection = [];
 
         $allProducts = ProductEloquentModel::all();
 
         foreach ($allProducts as $product) {
-            $collection->add(new Product(
+            $collection[] = new Product(
                 $product->id,
                 $product->name,
                 $product->description,
                 new Price($product->price, env('DEFAULT_CURRENCY')),
                 $product->image
-            ));
+            );
         }
 
         return $collection;

@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Models\Cart\Infraestructure;
-
-use App\Models\Cart\Domain\Cart;
+namespace App\Models\Cart\Domain;
 
 class CartRepository
 {
