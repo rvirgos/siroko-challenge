@@ -11,7 +11,12 @@ class CartItem
 
     private Quantity $quantity;
 
-    public function __construct(Product $product, Quantity $quantity)
+    public static function make(Product $product, Quantity $quantity): self
+    {
+        return new self($product, $quantity);
+    }
+
+    private function __construct(Product $product, Quantity $quantity)
     {
         $this->product = $product;
         $this->quantity = $quantity;
@@ -27,8 +32,13 @@ class CartItem
         return $this->quantity;
     }
 
-    public function getSubtotal(): Price
+    public function addQuantity(Quantity $moreQuantity): void
     {
-        return new Price( $this->product->price()->value() * $this->quantity->value(), env('DEFAULT_CURRENCY'));
+        $this->quantity->setValue($this->quantity->value() + $moreQuantity->value());
+    }
+
+    public function subTotal(): Price
+    {
+        return new Price($this->product->price()->value() * $this->quantity->value(), env('DEFAULT_CURRENCY'));
     }
 }

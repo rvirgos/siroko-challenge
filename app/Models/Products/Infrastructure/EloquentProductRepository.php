@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EloquentProductRepository implements ProductRepository
 {
-
     public function save(Product $product): void
     {
         $model = new ProductEloquentModel();
@@ -25,7 +24,7 @@ class EloquentProductRepository implements ProductRepository
 
     public function search(int $id): ?Product
     {
-        if (!$model = ProductEloquentModel::find($id)) {
+        if (! $model = ProductEloquentModel::find($id)) {
             throw new NotFoundHttpException('Producto no encontrado');
         }
 

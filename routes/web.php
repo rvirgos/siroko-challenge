@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\InfoProductController;
-use App\Http\Controllers\ListProductsController;
+use App\Http\Controllers\Backend\CartAddItemController;
+use App\Http\Controllers\Frontend\CartSummaryController;
+use App\Http\Controllers\Frontend\InfoProductController;
+use App\Http\Controllers\Frontend\ListProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ListProductsController::class, '__invoke'])->name('listProducts');
 Route::get('/{id}/product', [InfoProductController::class, '__invoke'])->name('infoProduct');
-
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartSummaryController::class, '__invoke'])->name('cartSummary');
+    Route::post('/add', [CartAddItemController::class, '__invoke'])->name('cartAddItem');
+});

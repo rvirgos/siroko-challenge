@@ -1,30 +1,33 @@
+@php
+    $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ asset ('css/app.css') }}">
-        <title>Siroko</title>
+        <title>Home - Tienda Siroko online</title>
     </head>
     <body>
-        <h1>Tienda Siroko online</h1>
+        <h1>Home - Siroko</h1>
         <table>
             <thead>
             <tr>
-                <th></th>
                 <th>Producto</th>
+                <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Precio</th>
-                <th>Comprar</th>
+                <th>Más info</th>
             </tr>
             </thead>
             @foreach ($products as $product)
                 <tr>
-                    <td><img src="{{ asset('images/' . $product->image()) }}" alt="Producto"></td>
+                    <td><a href="{{ $product->id() }}/product"><img src="{{ asset('images/' . $product->image()) }}" alt=""></a></td>
                     <td><a href="{{ $product->id() }}/product">{{ $product->name() }}</a></td>
                     <td>{{ $product->description() }}</td>
-                    <td>{{ number_format($product->price()->value(), 2) }}</td>
-                    <td><a href="">Comprar</a></td>
+                    <td>{{ $formatter->formatCurrency($product->price()->value(), env('DEFAULT_CURRENCY')) }}</td>
+                    <td><a href="{{ $product->id() }}/product">Ver más</td>
                 </tr>
             @endforeach
         </table>

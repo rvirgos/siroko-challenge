@@ -13,9 +13,8 @@ class Price
     private function ensurePriceIsValid(float $value): void
     {
         if ($value <= 0) {
-            throw new InvalidArgumentException($value . 'is not a valid price');
+            throw new InvalidArgumentException($value.'is not a valid price');
         }
-
     }
 
     public function __construct(float $value, string $currency)

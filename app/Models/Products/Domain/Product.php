@@ -5,9 +5,13 @@ namespace App\Models\Products\Domain;
 class Product
 {
     private int $id;
+
     private string $name;
+
     private string $description;
+
     private Price $price;
+
     private string $image;
 
     public function __construct(int $id, string $name, string $description, Price $price, string $image)

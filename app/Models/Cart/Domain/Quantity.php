@@ -21,4 +21,9 @@ class Quantity
     {
         return $this->value;
     }
+
+    public function setValue(int $value): void
+    {
+        $this->value = $value;
+    }
 }

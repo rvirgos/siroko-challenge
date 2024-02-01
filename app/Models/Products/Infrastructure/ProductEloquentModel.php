@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 final class ProductEloquentModel extends Model
 {
     protected $table = 'products';
+
     protected $primaryKey = 'id';
+
     protected $fillable = ['name', 'description', 'price'];
 }

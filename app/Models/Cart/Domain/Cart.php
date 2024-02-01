@@ -3,6 +3,7 @@
 namespace App\Models\Cart\Domain;
 
 use App\Models\Products\Domain\Price;
+
 use function App\Models\Entities\array_intersect;
 
 class Cart
@@ -11,25 +12,25 @@ class Cart
 
     private array $items;
 
-    public function create(int $id): self
+    public function __construct()
     {
-        return new self($id);
-    }
-
-    private function __construct(int $id)
-    {
-        $this->id = $id;
         $this->items = [];
     }
 
     public function addItem(CartItem $item): void
     {
-        $this->items[] = $item;
+        $key = $item->product()->id();
+        if (array_key_exists($key, $this->items)) {
+            $this->items[$key]->addQuantity($item->quantity());
+            return;
+        }
+        $this->items[$key] = $item;
     }
 
     public function removeItem(CartItem $itemToRemove): void
     {
-        $this->items = array_intersect($this->items, [$itemToRemove]);
+        $key = $itemToRemove->product()->id();
+        unset($this->items[$key]);
     }
 
     public function getTotal(): Price
@@ -38,7 +39,7 @@ class Cart
 
         foreach ($this->items as $item) {
             /* @var $item CartItem */
-            $total += $item->getSubtotal()->value();
+            $total += $item->subtotal()->value();
         }
 
         return new Price($total, env('DEFAULT_CURRENCY'));
