@@ -8,5 +8,7 @@ interface CartRepository
 
     public function searchOrCreate(string $id): Cart;
 
+    public function searchOrFail(string $id): Cart;
+
     public function getItems(Cart $cart): array;
 }

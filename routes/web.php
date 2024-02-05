@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\CartAddItemController;
+use App\Http\Controllers\Backend\CartUpdatetemController;
 use App\Http\Controllers\Frontend\CartSummaryController;
 use App\Http\Controllers\Frontend\InfoProductController;
 use App\Http\Controllers\Frontend\ListProductsController;
@@ -22,4 +23,5 @@ Route::get('/{id}/product', [InfoProductController::class, '__invoke'])->name('i
 Route::prefix('/cart')->group(function () {
     Route::get('/', [CartSummaryController::class, '__invoke'])->name('cartSummary');
     Route::post('/add', [CartAddItemController::class, '__invoke'])->name('cartAddItem');
+    Route::post('/update', [CartUpdatetemController::class, '__invoke'])->name('cartUpdateItem');
 });

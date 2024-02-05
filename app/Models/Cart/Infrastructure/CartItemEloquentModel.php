@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $quantity
  *
  * @method static create(array $array)
+ * @method static find($id)
+ * @method static select(string[] $array)
  */
 final class CartItemEloquentModel extends Model
 {

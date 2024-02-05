@@ -27,6 +27,15 @@ class Cart
         $this->items[$key] = $item;
     }
 
+    public function updateItem(CartItem $item): void
+    {
+        $key = $item->product()->id();
+        if (! array_key_exists($key, $this->items)) {
+            return;
+        }
+        $this->items[$key]->updateQuantity($item->quantity());
+    }
+
     public function removeItem(CartItem $itemToRemove): void
     {
         $key = $itemToRemove->product()->id();

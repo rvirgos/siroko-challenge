@@ -14,8 +14,6 @@ class AppResetCommand extends Command
     {
         $this->call('migrate:fresh');
         $this->call('db:seed');
-        $this->call('serve');
-        $this->call('serve', ['--port' => env('API_PORT')]);
         session()->flush();
     }
 }

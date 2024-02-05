@@ -5,27 +5,51 @@ namespace App\Models\Cart\Infrastructure;
 use App\Models\Cart\Domain\Cart;
 use App\Models\Cart\Domain\CartItem;
 use App\Models\Cart\Domain\CartItemRepository;
+use App\Models\Cart\Domain\Quantity;
+use App\Models\Products\Infrastructure\EloquentProductRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EloquentCartItemRepository implements CartItemRepository
 {
-    public function save(Cart $cart, CartItem $item): void
+    public function save(Cart $cart, CartItem $item): CartItem
     {
-        CartItemEloquentModel::create([
+        $model = CartItemEloquentModel::create([
             'cart_id' => $cart->id(),
             'product_id' => $item->product()->id(),
             'quantity' => $item->quantity()->value(),
         ]);
+
+        return $this->searchOrFail($cart->id(), $model->id);
     }
 
-    public function update(CartItem $item): bool
+    public function update(CartItem $item, Quantity $newQuantity): void
     {
-        // TODO: Implement update() method.
-        return false;
+        $item = CartItemEloquentModel::find($item->id());
+        $item->update([
+            'quantity' => $newQuantity->value(),
+        ]);
     }
 
-    public function remove(CartItem $item): bool
+    public function remove(CartItem $item): void
     {
         // TODO: Implement remove() method.
-        return false;
+    }
+
+    public function searchOrFail(string $cartId, int $itemId): CartItem
+    {
+        $model = CartItemEloquentModel::select(['id', 'product_id', 'quantity'])
+            ->where('cart_id', '=', $cartId)
+            ->where('id', '=', $itemId);
+        if ($model->count() === 0) {
+            throw new NotFoundHttpException('Item no encontrado');
+        }
+
+        $data = $model->first();
+
+        return CartItem::make(
+            $itemId,
+            (new EloquentProductRepository())->searchOrFail($data->product_id),
+            (new Quantity($data->quantity)),
+        );
     }
 }

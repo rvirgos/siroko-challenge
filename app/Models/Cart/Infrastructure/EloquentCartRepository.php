@@ -4,6 +4,7 @@ namespace App\Models\Cart\Infrastructure;
 
 use App\Models\Cart\Domain\Cart;
 use App\Models\Cart\Domain\CartRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EloquentCartRepository implements CartRepository
 {
@@ -30,5 +31,15 @@ class EloquentCartRepository implements CartRepository
     {
         //  TODO: Implement getItems() method.
         return [];
+    }
+
+    public function searchOrFail(string $id): Cart
+    {
+        $model = CartEloquentModel::select('id')->where('id', '=', $id);
+        if ($model->count() === 0) {
+            throw new NotFoundHttpException('Carrito no encontrado');
+        }
+
+        return $model->first();
     }
 }

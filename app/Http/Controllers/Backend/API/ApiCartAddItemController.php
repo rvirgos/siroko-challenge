@@ -30,23 +30,27 @@ class ApiCartAddItemController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         try {
-            $cart = $this->cartRepository->searchOrCreate($request->get('cart_id'));
+            $cartId = $request->get('cart_id');
+            $cart = $this->cartRepository->searchOrCreate($cartId);
             $product = $this->productRepository->searchOrFail($request->get('product_id'));
             $quantity = new Quantity($request->get('quantity'));
-            $item = CartItem::make($product, $quantity);
+            $item = CartItem::make(null, $product, $quantity);
 
-            $this->cartItemRepository->save($cart, $item);
+            $newItem = $this->cartItemRepository->save($cart, $item);
         } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), 403);
         }
 
         return new JsonResponse([
-            'product_id' => $product->id(),
-            'name' => $product->name(),
-            'description' => $product->description(),
-            'price' => $product->price()->value(),
-            'currency' => $product->price()->currency(),
-            'image' => $product->image(),
+            'cart_id' => $cartId,
+            'item_id' => $newItem->id(),
+            'product_id' => $newItem->product()->id(),
+            'name' => $newItem->product()->name(),
+            'description' => $newItem->product()->description(),
+            'price' => $newItem->product()->price()->value(),
+            'currency' => $newItem->product()->price()->currency(),
+            'image' => $newItem->product()->image(),
+            'quantity' => $newItem->quantity()->value(),
         ]);
     }
 }

@@ -28,8 +28,14 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
                     <td>{{ $item->product()->name() }}</td>
                     <td>{{ $formatter->formatCurrency($item->product()->price()->value(), $item->product()->price()->currency()) }}</td>
                     <td>
-                        <input name="quantity" type="number" min="1" step="1" value="{{ $item->quantity()->value() }}">
-                        <button type="button">🔄</button>
+                        <form method="post" action="{{ route('cartUpdateItem', [
+                            'cart_id' => session('cart')->id(),
+                            'cart_item_id' => $item->id(),
+                        ]) }}">
+                            @csrf
+                            <input name="quantity" type="number" min="1" step="1" value="{{ $item->quantity()->value() }}">
+                            <button type="submit">🔄</button>
+                        </form>
                     </td>
                     <td>{{ $formatter->formatCurrency($item->subTotal()->value(), $item->product()->price()->currency()) }}</td>
                     <td><a href="">Eliminar</a></td>

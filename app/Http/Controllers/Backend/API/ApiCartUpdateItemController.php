@@ -3,33 +3,47 @@
 namespace App\Http\Controllers\Backend\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart\Domain\Cart;
-use App\Models\Cart\Domain\CartItem;
+use App\Models\Cart\Domain\CartItemRepository;
+use App\Models\Cart\Domain\CartRepository;
 use App\Models\Cart\Domain\Quantity;
-use App\Models\Products\Domain\ProductRepository;
-use Illuminate\Http\RedirectResponse;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ApiCartUpdateItemController extends Controller
 {
-    private ProductRepository $repository;
+    private CartRepository $cartRepository;
 
-    public function __construct(ProductRepository $repository)
+    private CartItemRepository $cartItemRepository;
+
+    public function __construct(CartRepository $cartRepository, CartItemRepository $cartItemRepository)
     {
-        $this->repository = $repository;
+        $this->cartRepository = $cartRepository;
+        $this->cartItemRepository = $cartItemRepository;
     }
 
-    public function __invoke(Request $request): RedirectResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        if (! session()->has('cart')) {
-            session(['cart' => new Cart(uniqid('cart_'))]);
+        $cartId = $request->get('cart_id');
+        try {
+            $item = $this->cartItemRepository->searchOrFail($cartId, $request->get('cart_item_id'));
+            $newQuantity = new Quantity($request->get('quantity'));
+
+            $this->cartItemRepository->update($item, $newQuantity);
+        } catch (Exception $e) {
+            return new JsonResponse($e->getMessage(), 403);
         }
 
-        $product = $this->repository->searchOrFail($request->get('product_id'));
-        $quantity = new Quantity($request->get('quantity'));
-        $item = CartItem::make($product, $quantity);
-        session('cart')->addItem($item);
-
-        return redirect()->route('cartSummary');
+        return new JsonResponse([
+            'cart_id' => $cartId,
+            'item_id' => $item->id(),
+            'product_id' => $item->product()->id(),
+            'name' => $item->product()->name(),
+            'description' => $item->product()->description(),
+            'price' => $item->product()->price()->value(),
+            'currency' => $item->product()->price()->currency(),
+            'image' => $item->product()->image(),
+            'quantity' => $item->quantity()->value(),
+        ]);
     }
 }
