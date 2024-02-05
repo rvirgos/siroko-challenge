@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart\Domain\CartItem;
-use App\Models\Cart\Domain\Quantity;
-use App\Models\Products\Domain\Price;
-use App\Models\Products\Domain\Product;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;

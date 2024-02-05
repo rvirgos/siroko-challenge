@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart\Domain\CartItemRepository;
-use App\Models\Cart\Domain\Quantity;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
