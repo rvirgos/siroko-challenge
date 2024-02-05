@@ -8,7 +8,9 @@ interface CartItemRepository
 
     public function update(CartItem $item, Quantity $newQuantity): void;
 
-    public function remove(CartItem $item): void;
+    public function remove(string $cartId, CartItem $item): void;
 
     public function searchOrFail(string $cartId, int $itemId): CartItem;
+
+    public function countItems(string $cartId): int;
 }

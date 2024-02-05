@@ -38,11 +38,29 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
                         </form>
                     </td>
                     <td>{{ $formatter->formatCurrency($item->subTotal()->value(), $item->product()->price()->currency()) }}</td>
-                    <td><a href="">Eliminar</a></td>
+                    <td><form class="removeFrm" method="post" action="{{ route('cartRemoveItem', [
+                            'cart_id' => session('cart')->id(),
+                            'cart_item_id' => $item->id(),
+                        ]) }}">
+                            @csrf
+                            <button type="submit">🗑</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </table>
         <p class="price">Total: {{ $formatter->formatCurrency($total->value(), env('DEFAULT_CURRENCY')) }}</p>
         <a href="{{ route('listProducts') }}">Seguir comprando</a>
+
+    <script>
+        window.onload = function () {
+            let frms = document.getElementsByClassName('removeFrm');
+            for (i in frms) {
+                frms[i].onsubmit = function () {
+                    return window.confirm('¿Borrar seguro?');
+                };
+            }
+        };
+    </script>
     </body>
 </html>

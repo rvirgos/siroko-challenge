@@ -30,9 +30,13 @@ class EloquentCartItemRepository implements CartItemRepository
         ]);
     }
 
-    public function remove(CartItem $item): void
+    public function remove(string $cartId, CartItem $item): void
     {
-        // TODO: Implement remove() method.
+        $model = CartItemEloquentModel::select(['id'])
+            ->where('cart_id', '=', $cartId)
+            ->where('id', '=', $item->id());
+
+        $model->delete();
     }
 
     public function searchOrFail(string $cartId, int $itemId): CartItem
@@ -51,5 +55,10 @@ class EloquentCartItemRepository implements CartItemRepository
             (new EloquentProductRepository())->searchOrFail($data->product_id),
             (new Quantity($data->quantity)),
         );
+    }
+
+    public function countItems(string $cartId): int
+    {
+        return CartItemEloquentModel::select(['quantity'])->where('cart_id', '=', $cartId)->sum();
     }
 }

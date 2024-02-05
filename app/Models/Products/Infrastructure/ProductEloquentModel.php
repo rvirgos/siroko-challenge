@@ -3,6 +3,7 @@
 namespace App\Models\Products\Infrastructure;
 
 use App\Models\Cart\Infrastructure\CartItemEloquentModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 final class ProductEloquentModel extends Model
 {
+    use HasFactory;
+
     protected $table = 'products';
 
     protected $primaryKey = 'id';

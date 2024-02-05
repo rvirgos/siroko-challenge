@@ -36,10 +36,9 @@ class Cart
         $this->items[$key]->updateQuantity($item->quantity());
     }
 
-    public function removeItem(CartItem $itemToRemove): void
+    public function removeItem(int $cartItemId): void
     {
-        $key = $itemToRemove->product()->id();
-        unset($this->items[$key]);
+        unset($this->items[$cartItemId]);
     }
 
     public function getTotal(): Price

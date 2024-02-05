@@ -28,6 +28,10 @@ table {
     margin-bottom: 1em;
 }
 
+table button{
+    padding: 5px;
+}
+
 td, th {
     border: 1px solid #ccc;
     padding: .5em 1em;

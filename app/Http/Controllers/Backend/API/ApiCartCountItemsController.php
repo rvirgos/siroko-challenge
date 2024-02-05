@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ApiCartUpdateItemController extends Controller
+class ApiCartCountItemsController extends Controller
 {
     private CartItemRepository $cartItemRepository;
 
@@ -23,23 +23,13 @@ class ApiCartUpdateItemController extends Controller
         $cartId = $request->get('cart_id');
         try {
             $item = $this->cartItemRepository->searchOrFail($cartId, $request->get('cart_item_id'));
-            $newQuantity = new Quantity($request->get('quantity'));
-
-            $this->cartItemRepository->update($item, $newQuantity);
+            $this->cartItemRepository->remove($cartId, $item);
         } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), 403);
         }
 
         return new JsonResponse([
             'cart_id' => $cartId,
-            'item_id' => $item->id(),
-            'product_id' => $item->product()->id(),
-            'name' => $item->product()->name(),
-            'description' => $item->product()->description(),
-            'price' => $item->product()->price()->value(),
-            'currency' => $item->product()->price()->currency(),
-            'image' => $item->product()->image(),
-            'quantity' => $newQuantity->value(),
         ]);
     }
 }

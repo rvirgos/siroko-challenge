@@ -3,33 +3,31 @@
 namespace App\Http\Controllers\Backend\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart\Domain\Cart;
-use App\Models\Cart\Domain\CartItem;
-use App\Models\Cart\Domain\Quantity;
-use App\Models\Products\Domain\ProductRepository;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Cart\Domain\CartItemRepository;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ApiCartRemoveItemController extends Controller
 {
-    private ProductRepository $repository;
+    private CartItemRepository $cartItemRepository;
 
-    public function __construct(ProductRepository $repository)
+    public function __construct(CartItemRepository $cartItemRepository)
     {
-        $this->repository = $repository;
+        $this->cartItemRepository = $cartItemRepository;
     }
 
-    public function __invoke(Request $request): RedirectResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        if (! session()->has('cart')) {
-            session(['cart' => new Cart()]);
+        $cartId = $request->get('cart_id');
+        try {
+            $count = $this->cartItemRepository->countItems($cartId);
+        } catch (Exception $e) {
+            return new JsonResponse($e->getMessage(), 403);
         }
 
-        $product = $this->repository->searchOrFail($request->get('product_id'));
-        $quantity = new Quantity($request->get('quantity'));
-        $item = CartItem::make($product, $quantity);
-        session('cart')->addItem($item);
-
-        return redirect()->route('cartSummary');
+        return new JsonResponse([
+            'count' => $count,
+        ]);
     }
 }

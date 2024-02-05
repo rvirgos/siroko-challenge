@@ -14,13 +14,12 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
         <img src="{{ asset('images/' . $info->image()) }}" alt="Producto">
         <p class="desc">{{ $info->description() }}</p>
         <p class="price">{{ $formatter->formatCurrency($info->price()->value(), env('DEFAULT_CURRENCY')) }}</p>
-        <form method="post" action="{{ route('cartAddItem') }}">
+        <form method="post" action="{{ route('cartAddItem', ['product_id' => $info->id()]) }}">
             @csrf
             <label>
                 Cantidad a comprar
                 <input name="quantity" type="number" min="1" step="1" value="1">
             </label>
-            <input name="product_id" type="hidden" value="{{ $info->id() }}">
             <button type="submit">Comprar</button>
         </form>
         <a href="{{ route('listProducts') }}">Volver</a>
