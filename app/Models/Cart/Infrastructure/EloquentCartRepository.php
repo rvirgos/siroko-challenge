@@ -27,12 +27,6 @@ class EloquentCartRepository implements CartRepository
         return $cart;
     }
 
-    public function getItems(Cart $cart): array
-    {
-        //  TODO: Implement getItems() method.
-        return [];
-    }
-
     public function searchOrFail(string $id): Cart
     {
         $model = CartEloquentModel::select('id')->where('id', '=', $id);
@@ -41,5 +35,18 @@ class EloquentCartRepository implements CartRepository
         }
 
         return $model->first();
+    }
+
+    public function checkout(string $id): void
+    {
+        $model = CartEloquentModel::select('id')->where('id', '=', $id);
+        if ($model->count() === 0) {
+            throw new NotFoundHttpException('Carrito no encontrado');
+        }
+
+        $model->first()->update([
+            'complete' => true,
+        ]);
+
     }
 }

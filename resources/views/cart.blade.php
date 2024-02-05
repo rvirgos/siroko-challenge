@@ -38,7 +38,8 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
                         </form>
                     </td>
                     <td>{{ $formatter->formatCurrency($item->subTotal()->value(), $item->product()->price()->currency()) }}</td>
-                    <td><form class="removeFrm" method="post" action="{{ route('cartRemoveItem', [
+                    <td>
+                        <form class="removeFrm" method="post" action="{{ route('cartRemoveItem', [
                             'cart_id' => session('cart')->id(),
                             'cart_item_id' => $item->id(),
                         ]) }}">
@@ -51,8 +52,14 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
         </table>
         <p>{{ $count }} elementos en el carrito.</p>
         <p class="price">Total: {{ $formatter->formatCurrency($total->value(), env('DEFAULT_CURRENCY')) }}</p>
-        <a href="{{ route('listProducts') }}">Seguir comprando</a>
-
+        <a href="{{ route('listProducts') }}">Seguir comprando, o</a>
+        <form method="post" action="{{ route('cartCheckout', [
+            'cart_id' => session('cart')->id(),
+            'cart_item_id' => $item->id(),
+        ]) }}">
+            @csrf
+            <br><button type="submit">Finalizar compra</button>
+        </form>
     <script>
         window.onload = function () {
             let frms = document.getElementsByClassName('removeFrm');

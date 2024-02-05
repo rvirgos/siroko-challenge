@@ -9,14 +9,15 @@ Requisites:
 
 We assume that the API doesn't need a valid token to be accessed. This API has 3 endpoints:
 
-| Method | Endpoint | Function                                           |
-|:-------|:---------|:---------------------------------------------------|
-| POST   | /add     | Add an item to the shopping cart                   |
-| PUT    | /update  | Change the quantity of a given product in the cart |                                                                                     |
-| DELETE | /remove  | Remove an item from the shopping cart              |                                                                                     |
-| GET    | /count   | Retrieves the number of items in the cart          |                                                                                     |
+| Method | Endpoint  | Function                                           |
+|:-------|:----------|:---------------------------------------------------|
+| POST   | /add      | Add an item to the shopping cart                   |
+| PUT    | /update   | Change the quantity of a given product in the cart |                                                                                     |
+| DELETE | /remove   | Remove an item from the shopping cart              |                                                                                     |
+| GET    | /count    | Retrieve the number of items in the cart           |                                                                                     |
+| POST   | /checkout | Empty the cart and set it as complete              |                                                                                     |
 
-## /add endpoint
+## /add
 ### Params
 JSON encoded:
 - cart_id. The ID of the cart where the item will be stored
@@ -34,8 +35,9 @@ JSON encoded data from the inserted product and the amount added:
 - currency
 - image
 - quantity
+- A 200 code in header if OK, 403 if error
 
-## /update endpoint
+## /update
 ### Params
 JSON encoded:
 - cart_id. The ID of the cart where the item will be stored
@@ -53,23 +55,38 @@ JSON encoded data from the updated product and the new amount:
 - currency
 - image
 - quantity
+- A 200 code in header if OK, 403 if error
 - 
-## /remove endpoint
+## /remove
 ### Params
 JSON encoded:
 - cart_id. The ID of the cart where the item will be removed
 - cart_item_id. The ID of the item that will be removed
+- A 200 code in header if OK, 403 if error
 
 ### Returns
 JSON encoded data from the updated cart:
 - cart_id
+- A 200 code in header if OK, 403 if error
 
-## /count endpoint
+## /count
 ### Params
 JSON encoded:
 - cart_id. The ID of the cart where the items will be counted
+- A 200 code in header if OK, 403 if error
 
 ### Returns
 JSON encoded the number of items:
 - count
+- A 200 code in header if OK, 403 if error
+
+
+## /checkout
+### Params
+JSON encoded:
+- cart_id. The ID of the cart to be processed
+- A 200 code in header if OK, 403 if error
+
+### Returns
+- Nothing in the body, only a 200 code in header if OK, 403 if error
 

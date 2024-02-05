@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart\Domain\Cart;
 use App\Models\Cart\Domain\CartItem;
 use App\Models\Cart\Domain\Quantity;
 use App\Models\Products\Domain\Price;
@@ -17,7 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CartAddItemController extends Controller
+class CartUpdateItemController extends Controller
 {
     /**
      * @throws GuzzleException
@@ -25,22 +24,19 @@ class CartAddItemController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse
     {
-        if (! session()->has('cart')) {
-            session(['cart' => new Cart(uniqid('cart_'))]);
-        }
-
-        $productId = $request->get('product_id');
+        $cartId = $request->get('cart_id');
+        $cartItemId = $request->get('cart_item_id');
         $quantity = $request->get('quantity');
 
         $data = [
-            'cart_id' => session('cart')->id(),
-            'product_id' => $productId,
+            'cart_id' => $cartId,
+            'cart_item_id' => $cartItemId,
             'quantity' => $quantity,
         ];
 
         $response = (new GuzzleClient())->send(new GuzzleRequest(
-            'POST',
-            (new Uri(route('apiCartAddItem')))->withPort(env('API_PORT')),
+            'PUT',
+            (new Uri(route('apiCartUpdateItem')))->withPort(env('API_PORT')),
             ['Content-type' => 'application/json'],
             json_encode($data),
         ));
@@ -60,7 +56,7 @@ class CartAddItemController extends Controller
             $body->image
         );
         $item = CartItem::make($body->item_id, $product, new Quantity($body->quantity));
-        session('cart')->addItem($item);
+        session('cart')->updateItem($item);
 
         return redirect()->route('cartSummary');
     }

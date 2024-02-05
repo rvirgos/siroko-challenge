@@ -8,32 +8,28 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use GuzzleHttp\Psr7\Uri;
 use HttpException;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
-class CartRemoveController extends Controller
+class CartCheckoutController extends Controller
 {
     /**
-     * @throws GuzzleException
      * @throws HttpException
+     * @throws GuzzleException
      */
-    public function __invoke(Request $request): RedirectResponse
+    public function __invoke(Request $request): View
     {
         $cartId = $request->get('cart_id');
-        $cartItemId = $request->get('cart_item_id');
 
         $data = [
             'cart_id' => $cartId,
-            'cart_item_id' => $cartItemId,
         ];
 
         $response = (new GuzzleClient())->send(new GuzzleRequest(
-            'DELETE',
-            (new Uri(route('apiCartRemoveItem')))->withPort(env('API_PORT')),
-            [
-                'Content-type' => 'application/json',
-            ],
+            'POST',
+            (new Uri(route('apiCartCheckout')))->withPort(env('API_PORT')),
+            ['Content-type' => 'application/json'],
             json_encode($data),
         ));
 
@@ -42,10 +38,8 @@ class CartRemoveController extends Controller
             throw new HttpException($response->getReasonPhrase());
         }
 
-        $body = json_decode($response->getBody()->getContents());
+        session()->remove('cart');
 
-        session('cart')->removeItem($cartItemId);
-
-        return redirect()->route('cartSummary');
+        return view('checkout');
     }
 }

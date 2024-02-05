@@ -10,5 +10,5 @@ interface CartRepository
 
     public function searchOrFail(string $id): Cart;
 
-    public function getItems(Cart $cart): array;
+    public function checkout(string $id): void;
 }

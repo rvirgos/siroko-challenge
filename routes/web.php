@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\Backend\CartAddItemController;
-use App\Http\Controllers\Backend\CartRemoveController;
-use App\Http\Controllers\Backend\CartUpdateController;
+use App\Http\Controllers\Backend\CartCheckoutController;
+use App\Http\Controllers\Backend\CartRemoveItemController;
+use App\Http\Controllers\Backend\CartUpdateItemController;
 use App\Http\Controllers\Frontend\CartSummaryController;
 use App\Http\Controllers\Frontend\InfoProductController;
 use App\Http\Controllers\Frontend\ListProductsController;
@@ -24,6 +25,7 @@ Route::get('/{id}/product', [InfoProductController::class, '__invoke'])->name('i
 Route::prefix('/cart')->group(function () {
     Route::get('/', [CartSummaryController::class, '__invoke'])->name('cartSummary');
     Route::post('/add', [CartAddItemController::class, '__invoke'])->name('cartAddItem');
-    Route::post('/update', [CartUpdateController::class, '__invoke'])->name('cartUpdateItem');
-    Route::post('/remove', [CartRemoveController::class, '__invoke'])->name('cartRemoveItem');
+    Route::post('/update', [CartUpdateItemController::class, '__invoke'])->name('cartUpdateItem');
+    Route::post('/remove', [CartRemoveItemController::class, '__invoke'])->name('cartRemoveItem');
+    Route::post('/checkout', [CartCheckoutController::class, '__invoke'])->name('cartCheckout');
 });

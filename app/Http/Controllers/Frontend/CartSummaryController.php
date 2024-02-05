@@ -29,7 +29,6 @@ class CartSummaryController extends Controller
     public function __invoke(Request $request): View
     {
 
-
         return view('cart', [
             'items' => session('cart')->items(),
             'count' => $this->getCount(),
