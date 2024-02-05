@@ -8,7 +8,8 @@
     </head>
     <body>
         <h1>Compra completada - Siroko</h1>
-        //TODO pago, mail, etc
+        <b>//TODO pago, mail, etc</b>
         <p>Su compra se ha realizado con éxito.</p>
+        <a href="{{ route('listProducts') }}">Volver a la home</a>
     </body>
 </html>

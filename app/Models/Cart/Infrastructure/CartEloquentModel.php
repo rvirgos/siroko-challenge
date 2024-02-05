@@ -2,16 +2,19 @@
 
 namespace App\Models\Cart\Infrastructure;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static create(array $array)
  * @method static where(string $column, string $operator, string $value)
- * @method static select(string $string)
+ * @method static select(string|array $param)
  */
 final class CartEloquentModel extends Model
 {
+    use HasFactory;
+
     protected $table = 'carts';
 
     protected $primaryKey = 'id';
