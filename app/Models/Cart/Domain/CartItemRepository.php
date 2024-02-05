@@ -4,7 +4,7 @@ namespace App\Models\Cart\Domain;
 
 interface CartItemRepository
 {
-    public function save(CartItem $item): void;
+    public function save(Cart $cart, CartItem $item): void;
 
     public function update(CartItem $item): bool;
 

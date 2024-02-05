@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
+            $table->boolean('complete');
             $table->timestamps();
         });
     }

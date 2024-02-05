@@ -16,8 +16,8 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
             <tr>
                 <th>Producto</th>
                 <th>Nombre</th>
-                <th>Descripción</th>
                 <th>Precio</th>
+                <th>Unidades</th>
                 <th>Subtotal</th>
                 <th>Eliminar</th>
             </tr>
@@ -26,12 +26,12 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
                 <tr>
                     <td><img src="{{ asset('images/' . $item->product()->image()) }}" alt=""></td>
                     <td>{{ $item->product()->name() }}</td>
+                    <td>{{ $formatter->formatCurrency($item->product()->price()->value(), $item->product()->price()->currency()) }}</td>
                     <td>
-                        <input name="quantity" type="number" step="1" value="{{ $item->quantity()->value() }}">
-                        <button>Actualizar</button>
+                        <input name="quantity" type="number" min="1" step="1" value="{{ $item->quantity()->value() }}">
+                        <button type="button">🔄</button>
                     </td>
-                    <td>{{ $formatter->formatCurrency($item->product()->price()->value(), env('DEFAULT_CURRENCY')) }}</td>
-                    <td>{{ $formatter->formatCurrency($item->subTotal()->value(), env('DEFAULT_CURRENCY')) }}</td>
+                    <td>{{ $formatter->formatCurrency($item->subTotal()->value(), $item->product()->price()->currency()) }}</td>
                     <td><a href="">Eliminar</a></td>
                 </tr>
             @endforeach

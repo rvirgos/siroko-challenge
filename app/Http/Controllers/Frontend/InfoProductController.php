@@ -17,7 +17,7 @@ class InfoProductController extends Controller
 
     public function __invoke(int $id): View
     {
-        $product = $this->repository->search($id);
+        $product = $this->repository->searchOrFail($id);
 
         return view('product', ['info' => $product]);
     }

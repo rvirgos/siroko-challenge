@@ -6,12 +6,13 @@ use App\Models\Products\Domain\Price;
 
 class Cart
 {
-    private int $id;
+    private string $id;
 
     private array $items;
 
-    public function __construct()
+    public function __construct(string $id)
     {
+        $this->id = $id;
         $this->items = [];
     }
 
@@ -42,6 +43,11 @@ class Cart
         }
 
         return new Price($total, env('DEFAULT_CURRENCY'));
+    }
+
+    public function id(): string
+    {
+        return $this->id;
     }
 
     public function items(): array

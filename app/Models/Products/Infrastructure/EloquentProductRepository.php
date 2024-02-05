@@ -11,17 +11,16 @@ class EloquentProductRepository implements ProductRepository
 {
     public function save(Product $product): void
     {
-        $model = new ProductEloquentModel();
-        $model->id = $product->id();
-        $model->name = $product->name();
-        $model->description = $product->description();
-        $model->price = $product->price()->value();
-        $model->image = $product->image();
-
-        $model->save();
+        ProductEloquentModel::create([
+            'id' => $product->id(),
+            'name' => $product->name(),
+            'description' => $product->description(),
+            'price' => $product->price()->value(),
+            'image' => $product->image(),
+        ]);
     }
 
-    public function search(int $id): ?Product
+    public function searchOrFail(int $id): ?Product
     {
         if (! $model = ProductEloquentModel::find($id)) {
             throw new NotFoundHttpException('Producto no encontrado');

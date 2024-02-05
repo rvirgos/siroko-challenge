@@ -18,7 +18,7 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
             @csrf
             <label>
                 Cantidad a comprar
-                <input name="quantity" type="number" step="1" value="1">
+                <input name="quantity" type="number" min="1" step="1" value="1">
             </label>
             <input name="product_id" type="hidden" value="{{ $info->id() }}">
             <button type="submit">Comprar</button>

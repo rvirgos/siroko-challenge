@@ -2,23 +2,33 @@
 
 namespace App\Models\Cart\Infrastructure;
 
+use App\Models\Cart\Domain\Cart;
 use App\Models\Cart\Domain\CartRepository;
 
 class EloquentCartRepository implements CartRepository
 {
     public function save(Cart $cart): void
     {
-        $model = new CartEloquentModel();
-        $model->save();
+        CartEloquentModel::create([
+            'id' => $cart->id(),
+            'complete' => false,
+        ]);
     }
 
-    public function update(Cart $cart): bool
+    public function searchOrCreate(string $id): Cart
     {
-        // TODO: Implement update() method.
+        $cart = new Cart($id);
+
+        if (CartEloquentModel::select('id')->where('id', '=', $id)->count() === 0) {
+            $this->save($cart);
+        }
+
+        return $cart;
     }
 
-    public function remove(Cart $cart): bool
+    public function getItems(Cart $cart): array
     {
-        // TODO: Implement remove() method.
+        //  TODO: Implement getItems() method.
+        return [];
     }
 }

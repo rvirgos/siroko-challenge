@@ -2,29 +2,40 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Cart\Domain\Cart;
+use App\Models\Cart\Domain\CartItem;
+use App\Models\Cart\Domain\Quantity;
+use App\Models\Cart\Infrastructure\EloquentCartItemRepository;
+use App\Models\Cart\Infrastructure\EloquentCartRepository;
+use App\Models\Products\Infrastructure\EloquentProductRepository;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:test-command';
+    protected $signature = 'test:test';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    protected $description = 'Command to testing';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function handle(): void
     {
-        //
+        if (! session()->has('cart')) {
+            session(['cart' => new Cart(uniqid('cart_'))]);
+        }
+
+        $cartRepository = new EloquentCartRepository();
+        $productRepository = new EloquentProductRepository();
+        $cartItemRepository = new EloquentCartItemRepository();
+
+        $cart = $cartRepository->searchOrCreate(session('cart')->id());
+        $product = $productRepository->searchOrFail(4);
+        $quantity = new Quantity(7);
+        $item = CartItem::make($product, $quantity);
+        $cartItemRepository->save($cart, $item);
+
+        $cart = $cartRepository->searchOrCreate(session('cart')->id());
+        $product = $productRepository->searchOrFail(3);
+        $quantity = new Quantity(4);
+        $item = CartItem::make($product, $quantity);
+        $cartItemRepository->save($cart, $item);
     }
 }

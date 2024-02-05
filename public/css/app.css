@@ -19,12 +19,16 @@ img {
     width: 400px;
 }
 
+input[type=number] {
+    width: 3em;
+}
+
 table {
     border-collapse: collapse;
     margin-bottom: 1em;
 }
 
-td, tr {
+td, th {
     border: 1px solid #ccc;
     padding: .5em 1em;
 }

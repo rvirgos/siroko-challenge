@@ -1,4 +1,5 @@
 @php
+    //session()->flush();
     $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
 @endphp
 <!DOCTYPE html>

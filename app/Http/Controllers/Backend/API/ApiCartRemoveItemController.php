@@ -25,7 +25,7 @@ class ApiCartRemoveItemController extends Controller
             session(['cart' => new Cart()]);
         }
 
-        $product = $this->repository->search($request->get('product_id'));
+        $product = $this->repository->searchOrFail($request->get('product_id'));
         $quantity = new Quantity($request->get('quantity'));
         $item = CartItem::make($product, $quantity);
         session('cart')->addItem($item);

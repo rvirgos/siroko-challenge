@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/add', [ApiCartAddItemController::class, '__invoke'])->name('apiCartAddItem');
-    Route::put('/update', [ApiCartUpdateItemController::class, '__invoke'])->name('apiCartUpdateItem');
-    Route::delete('/remove', [ApiCartRemoveItemController::class, '__invoke'])->name('apiCartRemoveItem');
-});
+Route::post('/add', [ApiCartAddItemController::class, '__invoke'])->name('apiCartAddItem');
+Route::put('/update', [ApiCartUpdateItemController::class, '__invoke'])->name('apiCartUpdateItem');
+Route::delete('/remove', [ApiCartRemoveItemController::class, '__invoke'])->name('apiCartRemoveItem');
