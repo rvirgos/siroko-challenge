@@ -59,6 +59,6 @@ class EloquentCartItemRepository implements CartItemRepository
 
     public function countItems(string $cartId): int
     {
-        return CartItemEloquentModel::select(['quantity'])->where('cart_id', '=', $cartId)->sum();
+        return CartItemEloquentModel::where('cart_id', '=', $cartId)->sum('quantity');
     }
 }
