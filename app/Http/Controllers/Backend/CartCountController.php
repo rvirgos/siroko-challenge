@@ -1,27 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Products\Domain\ProductRepository;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use GuzzleHttp\Psr7\Uri;
+use HttpException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
-class CartSummaryController extends Controller
+class CartCountController extends Controller
 {
-    private ProductRepository $repository;
-
-    public function __construct(ProductRepository $repository)
+    /**
+     * @throws GuzzleException
+     * @throws HttpException
+     */
+    public function __invoke(Request $request): RedirectResponse
     {
-        $this->repository = $repository;
-    }
+        $cartId = $request->get('cart_id');
 
-    public function __invoke(Request $request): View
-    {
+        $data = [
+            'cart_id' => $cartId,
+        ];
+
         $response = (new GuzzleClient())->send(new GuzzleRequest(
             'GET',
             (new Uri(route('apiCartCountItem')))->withPort(env('API_PORT')),
@@ -38,10 +42,6 @@ class CartSummaryController extends Controller
 
         $body = json_decode($response->getBody()->getContents());
 
-        return view('cart', [
-            'items' => session('cart')->items(),
-            'count' => $body->count,
-            'total' => session('cart')->getTotal(),
-        ]);
+        return redirect()->route('cartSummary');
     }
 }

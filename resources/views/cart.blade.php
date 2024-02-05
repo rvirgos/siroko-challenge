@@ -49,6 +49,7 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
                 </tr>
             @endforeach
         </table>
+        <p>{{ $count }} elementos en el carrito.</p>
         <p class="price">Total: {{ $formatter->formatCurrency($total->value(), env('DEFAULT_CURRENCY')) }}</p>
         <a href="{{ route('listProducts') }}">Seguir comprando</a>
 

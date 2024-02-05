@@ -21,13 +21,14 @@ class ApiCartRemoveItemController extends Controller
     {
         $cartId = $request->get('cart_id');
         try {
-            $count = $this->cartItemRepository->countItems($cartId);
+            $item = $this->cartItemRepository->searchOrFail($cartId, $request->get('cart_item_id'));
+            $this->cartItemRepository->remove($cartId, $item);
         } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), 403);
         }
 
         return new JsonResponse([
-            'count' => $count,
+            'cart_id' => $cartId,
         ]);
     }
 }
