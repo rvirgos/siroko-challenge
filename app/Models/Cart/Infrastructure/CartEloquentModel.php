@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static create(array $array)
  * @method static where(string $column, string $operator, string $value)
  * @method static select(string|array $param)
+ * @method static count()
  */
 final class CartEloquentModel extends Model
 {

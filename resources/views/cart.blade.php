@@ -53,13 +53,14 @@ $formatter = new NumberFormatter( 'es_ES', NumberFormatter::CURRENCY);
         <p>{{ $count }} elementos en el carrito.</p>
         <p class="price">Total: {{ $formatter->formatCurrency($total->value(), env('DEFAULT_CURRENCY')) }}</p>
         <a href="{{ route('listProducts') }}">Seguir comprando, o</a>
+        @if ($count === 0)
         <form method="post" action="{{ route('cartCheckout', [
             'cart_id' => session('cart')->id(),
-            'cart_item_id' => $item->id(),
         ]) }}">
             @csrf
             <br><button type="submit">Finalizar compra</button>
         </form>
+        @endif
     <script>
         window.onload = function () {
             let frms = document.getElementsByClassName('removeFrm');

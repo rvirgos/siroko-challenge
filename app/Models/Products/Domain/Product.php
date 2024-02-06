@@ -2,8 +2,15 @@
 
 namespace App\Models\Products\Domain;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+/**
+ * @method static first()
+ */
 class Product
 {
+    use HasFactory;
+
     private int $id;
 
     private string $name;

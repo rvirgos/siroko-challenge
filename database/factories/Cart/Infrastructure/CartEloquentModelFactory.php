@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Cart\Infrastructure;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart\Infrastructure\CartEloquentModel>
  */
-class CartFactory extends Factory
+class CartEloquentModelFactory extends Factory
 {
     /**
      * Define the model's default state.

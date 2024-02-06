@@ -29,6 +29,7 @@ class ApiCartRemoveItemController extends Controller
 
         return new JsonResponse([
             'cart_id' => $cartId,
+            'product_id' => $item->product()->id()
         ]);
     }
 }

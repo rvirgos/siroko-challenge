@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static find(int $id)
  * @method static create(array $array)
+ * @method static first()
+ * @property int $id
  */
 final class ProductEloquentModel extends Model
 {
@@ -24,5 +26,10 @@ final class ProductEloquentModel extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(CartItemEloquentModel::class);
+    }
+
+    public function id()
+    {
+        return $this->id;
     }
 }

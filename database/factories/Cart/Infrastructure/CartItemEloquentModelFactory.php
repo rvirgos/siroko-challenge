@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Cart\Infrastructure;
 
 use App\Models\Cart\Infrastructure\CartEloquentModel;
 use App\Models\Products\Infrastructure\ProductEloquentModel;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart\Infrastructure\CartItemEloquentModel>
  */
-class CartItemFactory extends Factory
+class CartItemEloquentModelFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart\Infrastructure\EloquentCartItemRepository;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
@@ -42,7 +43,7 @@ class CartRemoveItemController extends Controller
 
         $body = json_decode($response->getBody()->getContents());
 
-        session('cart')->removeItem($cartItemId);
+        session('cart')->removeItem($body->product_id);
 
         return redirect()->route('cartSummary');
     }
